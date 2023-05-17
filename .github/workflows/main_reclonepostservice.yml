@@ -36,7 +36,7 @@ jobs:
 
       - name: dotnet publish
         working-directory: ./Reclone-Post-Services
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp --self-contained
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -65,6 +65,3 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_444E926CB26548D694167112D07A9EEC }}
           package: .
-
-
-
