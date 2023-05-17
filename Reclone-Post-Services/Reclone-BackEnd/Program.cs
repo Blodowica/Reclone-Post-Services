@@ -114,6 +114,8 @@ Console.WriteLine(myUrl);
 // Log the image tag for the transformed asset to the console
 Console.WriteLine(myImageTag);
 
+
+
 // SEED DATABASE WHEN APP STARTS!!
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -123,16 +125,21 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "reclonepostservice", Version = "v1" });
-});
-/*if (app.Environment.IsDevelopment())
+
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}*/
+}
 
+if(app.Environment.IsProduction())
+{
+    builder.Services.AddSwaggerGen(c =>
+    {
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "reclonepostservice", Version = "v1" });
+    });
+
+}
 
 app.UseHttpsRedirection();
 
