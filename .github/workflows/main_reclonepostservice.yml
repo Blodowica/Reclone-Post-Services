@@ -56,19 +56,17 @@ jobs:
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         run: dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
         
-      - name: Restore NuGet packages
-        working-directory: ./Reclone-Post-Services
-        run: dotnet restore
+ 
 
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        working-directory: ./Reclone-Post-Services
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Blodowica_Reclone-Post-Services" /o:"blodowica" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build --configuration Release --no-restore --no-incremental --verbosity normal
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          .sonar/scanner/dotnet-sonarscanner begin /k:"Blodowica_Reclone-Search-Services" /o:"blodowica" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet build ./Reclone-Post-Services/Reclone-BackEnd/Reclone-Post-Services.csproj --no-incremental 
+          .sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+        
   test:
     runs-on: ubuntu-latest
     steps:
@@ -114,7 +112,7 @@ jobs:
           path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: publish
     environment:
       name: 'Production'
