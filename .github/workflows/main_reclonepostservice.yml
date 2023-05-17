@@ -66,6 +66,7 @@ jobs:
           ./.sonar/scanner/dotnet-sonarscanner begin /k:"Blodowica_Reclone-Post-Services" /o:"blodowica" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build --configuration Release --no-restore --no-incremental --verbosity normal
           ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -130,5 +131,4 @@ jobs:
           app-name: 'ReclonePostService'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_444E926CB26548D694167112D07A9EEC }}
-          package: .
-Update main_reclonepostservice.yml · Blodowica/Reclone-Post-Services@5fc6338
+          package: ./dotnet-app
