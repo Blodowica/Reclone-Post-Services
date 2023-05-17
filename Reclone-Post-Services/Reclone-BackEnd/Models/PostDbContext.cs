@@ -14,5 +14,6 @@ namespace Reclone_BackEnd.Models
       public  DbSet<Image> Image { get; set; }
       public  DbSet<Comment> Comment { get; set; }
 
+
     }
 }
