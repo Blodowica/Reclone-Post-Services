@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-analyze:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout code
@@ -66,7 +66,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         working-directory: ./Reclone-Post-Services
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Blodowica_Reclone-Post-Services" /o:"blodowica" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" dotnet build --configuration Release --no-restore --no-incremental --verbosity normal.\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Blodowica_Reclone-Post-Services" /o:"blodowica" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet build --configuration Release --no-restore --no-incremental --verbosity normal
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
   test:
     runs-on: ubuntu-latest
     steps:
