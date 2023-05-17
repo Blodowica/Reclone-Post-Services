@@ -10,20 +10,29 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: windows-latest
+  build-and-test:
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Set up .NET Core
+      - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
-          include-prerelease: true
 
-      - name: Build with dotnet
+      - name: Restore NuGet packages
+        working-directory: ./Reclone-Post-Services
+        run: dotnet restore
+
+      - name: Build
+        working-directory: ./Reclone-Post-Services
         run: dotnet build --configuration Release
+
+      - name: Test
+        working-directory: ./Reclone-Post-Services
+        run: dotnet test --no-restore --verbosity normal
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
@@ -36,7 +45,7 @@ jobs:
 
   deploy:
     runs-on: windows-latest
-    needs: build
+    needs: build-and-test
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
@@ -55,3 +64,6 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_444E926CB26548D694167112D07A9EEC }}
           package: .
+```
+
+I hope this helps! Let me know if you have any further questions or concerns.
