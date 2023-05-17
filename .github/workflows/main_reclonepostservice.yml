@@ -35,6 +35,7 @@ jobs:
         run: dotnet test --no-restore --verbosity normal
 
       - name: dotnet publish
+        working-directory: ./Reclone-Post-Services
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
