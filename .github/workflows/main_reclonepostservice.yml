@@ -55,6 +55,10 @@ jobs:
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         run: dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+        
+      - name: Restore NuGet packages
+        working-directory: ./Reclone-Post-Services
+        run: dotnet restore
 
       - name: Build and analyze
         env:
