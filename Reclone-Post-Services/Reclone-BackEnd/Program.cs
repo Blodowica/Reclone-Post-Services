@@ -126,19 +126,17 @@ using (var scope = app.Services.CreateScope())
 
 // Configure the HTTP request pipeline.
 
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-if(app.Environment.IsProduction())
+else if (app.Environment.IsProduction())
 {
-    builder.Services.AddSwaggerGen(c =>
-    {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "reclonepostservice", Version = "v1" });
-    });
-
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
