@@ -134,4 +134,4 @@ jobs:
           app-name: 'ReclonePostService'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_444E926CB26548D694167112D07A9EEC }}
-          package: 'Reclone-Post-Services\Reclone-BackEnd\bin\Debug\net6.0\publish'
+          package: './Reclone-Post-Services/eclone-BackEnd/in/Debug/net6.0/publish/'
