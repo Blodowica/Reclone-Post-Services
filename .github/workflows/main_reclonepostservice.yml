@@ -62,6 +62,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        working-directory: ./Reclone-Post-Services
         shell: bash
         run: |
           dotnet build --configuration Release --no-restore --no-incremental --verbosity normal
