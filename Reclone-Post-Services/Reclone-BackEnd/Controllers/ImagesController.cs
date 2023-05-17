@@ -1,10 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.CognitiveServices.ContentModerator;
 using Microsoft.Azure.CognitiveServices.ContentModerator.Models;
+using Microsoft.Extensions.Configuration;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -12,21 +16,18 @@ public class ImagesController : ControllerBase
 {
     private readonly Cloudinary _cloudinary;
     private readonly ContentModeratorClient _client;
-    private static readonly string subscriptionKey = Environment.GetEnvironmentVariable("AZURE_CONTENT_KEY");
-    private static readonly string endpoint = Environment.GetEnvironmentVariable("AZURE_CONTENT_ENDPOINT");
 
-
-
-    public ImagesController()
+    public ImagesController(IConfiguration configuration)
     {
-        Account account = new Account(
-               Environment.GetEnvironmentVariable("CLOUDINARY_CLOUD_NAME"),
-               Environment.GetEnvironmentVariable("CLOUDINARY_API_KEY"),
-               Environment.GetEnvironmentVariable("CLOUDINARY_API_SECRET")
-             );
+        var cloudinaryCloudName = configuration["CLOUDINARY_CLOUD_NAME"];
+        var cloudinaryApiKey = configuration["CLOUDINARY_API_KEY"];
+        var cloudinaryApiSecret = configuration["CLOUDINARY_API_SECRET"];
+        var contentModeratorKey = configuration["AZURE_CONTENT_KEY"];
+        var contentModeratorEndpoint = configuration["AZURE_CONTENT_ENDPOINT"];
+
+        Account account = new Account(cloudinaryCloudName, cloudinaryApiKey, cloudinaryApiSecret);
         _cloudinary = new Cloudinary(account);
-        _client = new ContentModeratorClient(new ApiKeyServiceClientCredentials(subscriptionKey)) { Endpoint = endpoint };
-        //_reviewTeamName = configuration["Azure:ContentModeration:ReviewTeamName"];
+        _client = new ContentModeratorClient(new ApiKeyServiceClientCredentials(contentModeratorKey)) { Endpoint = contentModeratorEndpoint };
     }
 
     [HttpPost("upload")]
@@ -36,8 +37,7 @@ public class ImagesController : ControllerBase
         if (file == null || file.Length == 0)
             return BadRequest("No image file was uploaded.");
 
-        //check that the image is lower than 
-
+        // Check that the image size is within limits
         if (file.Length > 100 * 1024) // 100 KB = 100 * 1024 bytes
         {
             return BadRequest("File size cannot be greater than 100 KB.");
@@ -46,25 +46,22 @@ public class ImagesController : ControllerBase
         // Upload image to Cloudinary
         try
         {
+            var uploadParams = new ImageUploadParams()
+            {
+                File = new FileDescription(file.FileName, file.OpenReadStream()),
+                PublicId = "my_image3"
+            };
 
-        var uploadParams = new ImageUploadParams()
-        {
-            File = new FileDescription(file.FileName, file.OpenReadStream()),
-            PublicId = "my_image3"
-        };
+            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
-        var uploadResult = await _cloudinary.UploadAsync(uploadParams);
-
-        // Return the uploaded image URL
-        return Ok(uploadResult.SecureUrl.AbsoluteUri);
+            // Return the uploaded image URL
+            return Ok(uploadResult.SecureUrl.AbsoluteUri);
         }
-        catch
+        catch (Exception)
         {
             return BadRequest();
-            throw new Exception();
         }
     }
-
 
     [HttpPost("review-image")]
     public async Task<IActionResult> ReviewImageUpload(IFormFile imageFile)
@@ -92,8 +89,6 @@ public class ImagesController : ControllerBase
         }
     }
 
-
-
     [HttpPost("uploadVideo")]
     public async Task<IActionResult> UploadVideo(IFormFile video)
     {
@@ -109,10 +104,10 @@ public class ImagesController : ControllerBase
             return BadRequest("Only mp4, avi, and mov video formats are supported.");
         }
 
-        // Check that the video size is less than 50MB
+        // Check that the video size is within limits
         if (video.Length > 20 * 1024 * 1024) // 20 MB = 20 * 1024 * 1024 bytes
         {
-            return BadRequest("Video file size cannot be greater than 50MB.");
+            return BadRequest("Video file size cannot be greater than 20MB.");
         }
 
         // Upload video to Cloudinary
@@ -129,10 +124,9 @@ public class ImagesController : ControllerBase
             // Return the uploaded video URL
             return Ok(uploadResult.SecureUrl.AbsoluteUri);
         }
-        catch
+        catch (Exception)
         {
             return BadRequest();
-            throw new Exception();
         }
     }
 }
