@@ -126,8 +126,6 @@ if (app.Environment.IsDevelopment())
         seeder.SeedPostDB(); // Call the SeedPostDB method here
     }
 }
-}
-
 // Configure the HTTP request pipeline.
 
 if (app.Environment.IsDevelopment())
