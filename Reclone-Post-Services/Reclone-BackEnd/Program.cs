@@ -19,7 +19,7 @@ builder.Services.AddTransient<PostSeeder>();
 
 
 // Add services to the container.
-builder.Services.AddHttpClient("UserMicroservice", client =>
+/*builder.Services.AddHttpClient("UserMicroservice", client =>
 {
     client.BaseAddress = new Uri("http://localhost:43090"); // Replace with the base address of Microservice1
 });
@@ -27,7 +27,7 @@ builder.Services.AddHttpClient("UserMicroservice", client =>
 builder.Services.AddHttpClient("SearchMicroservice", client =>
 {
     client.BaseAddress = new Uri(""); // Replace with the base address of Microservice2
-});
+});*/
 
 
 
