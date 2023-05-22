@@ -118,10 +118,14 @@ Console.WriteLine(myImageTag);
 
 // SEED DATABASE WHEN APP STARTS!!
 var app = builder.Build();
-using (var scope = app.Services.CreateScope())
+if (app.Environment.IsDevelopment())
 {
-    var seeder = scope.ServiceProvider.GetRequiredService<PostSeeder>();        
-    seeder.SeedPostDB(); // Call the SeedPostDB method here
+    using (var scope = app.Services.CreateScope())
+    {
+        var seeder = scope.ServiceProvider.GetRequiredService<PostSeeder>();
+        seeder.SeedPostDB(); // Call the SeedPostDB method here
+    }
+}
 }
 
 // Configure the HTTP request pipeline.
@@ -132,11 +136,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if(app.Environment.IsProduction())
+/*if(app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+}*/
 
 app.UseHttpsRedirection();
 
