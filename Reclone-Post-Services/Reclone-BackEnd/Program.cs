@@ -19,7 +19,7 @@ builder.Services.AddTransient<PostSeeder>();
 
 
 // Add services to the container.
-/*builder.Services.AddHttpClient("UserMicroservice", client =>
+builder.Services.AddHttpClient("UserMicroservice", client =>
 {
     client.BaseAddress = new Uri("http://localhost:43090"); // Replace with the base address of Microservice1
 });
@@ -27,7 +27,7 @@ builder.Services.AddTransient<PostSeeder>();
 builder.Services.AddHttpClient("SearchMicroservice", client =>
 {
     client.BaseAddress = new Uri(""); // Replace with the base address of Microservice2
-});*/
+});
 
 
 
@@ -115,9 +115,9 @@ Console.WriteLine(myUrl);
 Console.WriteLine(myImageTag);
 
 
+var app = builder.Build();
 
 // SEED DATABASE WHEN APP STARTS!!
-var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     using (var scope = app.Services.CreateScope())
