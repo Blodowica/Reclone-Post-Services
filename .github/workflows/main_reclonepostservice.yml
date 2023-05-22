@@ -105,7 +105,7 @@ jobs:
 
       - name: Publish
         working-directory: ./Reclone-Post-Services/Reclone-BackEnd
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp --self-contained --runtime linux-x64
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
