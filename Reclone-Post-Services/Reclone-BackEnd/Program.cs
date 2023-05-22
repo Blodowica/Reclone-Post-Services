@@ -21,12 +21,12 @@ builder.Services.AddTransient<PostSeeder>();
 // Add services to the container.
 builder.Services.AddHttpClient("UserMicroservice", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:43090"); // Replace with the base address of Microservice1
+    client.BaseAddress = new Uri("https://recloneuserservices.azurewebsites.net/"); // Replace with the base address of Microservice1
 });
 
 builder.Services.AddHttpClient("SearchMicroservice", client =>
 {
-    client.BaseAddress = new Uri(""); // Replace with the base address of Microservice2
+    client.BaseAddress = new Uri("https://reclonesearchservice.azurewebsites.net/"); // Replace with the base address of Microservice2
 });
 
 
