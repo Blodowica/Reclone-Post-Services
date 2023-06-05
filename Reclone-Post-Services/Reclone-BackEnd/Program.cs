@@ -5,18 +5,23 @@ using Microsoft.Azure.CognitiveServices.ContentModerator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Post_Test_Project;
 using Reclone_BackEnd.Models;
 using Reclone_BackEnd.Seeders;
+using Reclone_BackEnd.ServiceBus;
 
 var builder = WebApplication.CreateBuilder(args);
 
+    
+//ImageControllerTest.Run();
 
 
 //Registered services
 
 builder.Services.AddTransient<PostSeeder>();
 
-
+//Event driven message queue
+builder.Services.AddScoped<IServiceBus, ServiceBus>();
 
 // Add services to the container.
 /*builder.Services.AddHttpClient("UserMicroservice", client =>

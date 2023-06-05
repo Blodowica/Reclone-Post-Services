@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.CognitiveServices.ContentModerator;
 using Microsoft.Azure.CognitiveServices.ContentModerator.Models;
 using Microsoft.Extensions.Configuration;
+using Reclone_BackEnd.ServiceBus;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -129,4 +130,28 @@ public class ImagesController : ControllerBase
             return BadRequest();
         }
     }
+
+   
+    [HttpPost("send-to-service-bus")]
+    public async Task<IActionResult> SendToServiceBus([FromBody] Reclone_BackEnd.Models.Image imageDetails, [FromServices] IServiceBus serviceBus)
+    {
+        if (imageDetails == null)
+        {
+            return BadRequest("No image details provided.");
+        }
+
+        try
+        {
+            // Call the SendMessageAsync method of the service bus
+            await serviceBus.SendMessageAsync(imageDetails);
+
+            return Ok("Image details sent to Service Bus successfully.");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest($"Failed to send image details to Service Bus: {ex.Message}");
+        }
+    }
+
+
 }

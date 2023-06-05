@@ -5,7 +5,9 @@ VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reclone-Post-Services", "Reclone-BackEnd\Reclone-Post-Services.csproj", "{8595AF4C-1A0F-4EE0-8A05-88D18F6CF57D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Post-Test-Project", "Post-Test-Project\Post-Test-Project.csproj", "{F32311DF-F315-47D1-BE2B-9195D0B71F84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Post-Test-Project", "Post-Test-Project\Post-Test-Project.csproj", "{F32311DF-F315-47D1-BE2B-9195D0B71F84}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test Test project", "test Test project\test Test project.csproj", "{691E7D38-7DBB-4F9F-BAC5-3911B759EBD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F32311DF-F315-47D1-BE2B-9195D0B71F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F32311DF-F315-47D1-BE2B-9195D0B71F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F32311DF-F315-47D1-BE2B-9195D0B71F84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{691E7D38-7DBB-4F9F-BAC5-3911B759EBD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{691E7D38-7DBB-4F9F-BAC5-3911B759EBD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{691E7D38-7DBB-4F9F-BAC5-3911B759EBD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{691E7D38-7DBB-4F9F-BAC5-3911B759EBD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
