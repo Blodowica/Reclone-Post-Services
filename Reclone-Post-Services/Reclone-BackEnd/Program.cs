@@ -24,15 +24,15 @@ builder.Services.AddTransient<PostSeeder>();
 builder.Services.AddScoped<IServiceBus, ServiceBus>();
 
 // Add services to the container.
-/*builder.Services.AddHttpClient("UserMicroservice", client =>
+builder.Services.AddHttpClient("UserMicroservice", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:43090"); // Replace with the base address of Microservice1
+    client.BaseAddress = new Uri("https://recloneuserservices.azurewebsites.net/"); // Replace with the base address of Microservice1
 });
 
 builder.Services.AddHttpClient("SearchMicroservice", client =>
 {
-    client.BaseAddress = new Uri(""); // Replace with the base address of Microservice2
-});*/
+    client.BaseAddress = new Uri("https://reclonesearchservice.azurewebsites.net/"); // Replace with the base address of Microservice2
+});
 
 
 
@@ -120,15 +120,17 @@ Console.WriteLine(myUrl);
 Console.WriteLine(myImageTag);
 
 
+var app = builder.Build();
 
 // SEED DATABASE WHEN APP STARTS!!
-var app = builder.Build();
-using (var scope = app.Services.CreateScope())
+if (app.Environment.IsDevelopment())
 {
-    var seeder = scope.ServiceProvider.GetRequiredService<PostSeeder>();        
-    seeder.SeedPostDB(); // Call the SeedPostDB method here
+    using (var scope = app.Services.CreateScope())
+    {
+        var seeder = scope.ServiceProvider.GetRequiredService<PostSeeder>();
+        seeder.SeedPostDB(); // Call the SeedPostDB method here
+    }
 }
-
 // Configure the HTTP request pipeline.
 
 if (app.Environment.IsDevelopment())
@@ -137,11 +139,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-if(app.Environment.IsProduction())
+/*if(app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+}*/
 
 app.UseHttpsRedirection();
 
