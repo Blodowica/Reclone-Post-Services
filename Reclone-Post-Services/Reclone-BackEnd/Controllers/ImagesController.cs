@@ -43,13 +43,16 @@ public class ImagesController : ControllerBase
             return BadRequest("File size cannot be greater than 100 KB.");
         }
 
+        // Generate a random public ID
+        string publicId = Guid.NewGuid().ToString();
+
         // Upload image to Cloudinary
         try
         {
             var uploadParams = new ImageUploadParams()
             {
                 File = new FileDescription(file.FileName, file.OpenReadStream()),
-                PublicId = "my_image3"
+                PublicId = publicId
             };
 
             var uploadResult = await _cloudinary.UploadAsync(uploadParams);
@@ -62,6 +65,7 @@ public class ImagesController : ControllerBase
             return BadRequest();
         }
     }
+
 
     [HttpPost("review-image")]
     public async Task<IActionResult> ReviewImageUpload(IFormFile imageFile)
