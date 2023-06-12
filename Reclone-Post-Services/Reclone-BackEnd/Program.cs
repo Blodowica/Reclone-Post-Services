@@ -31,11 +31,19 @@ builder.Services.AddHttpClient("SearchMicroservice", client =>
 
 
 
-
 //ADD DB COTEXT WITH CONNECTION STRING 
 builder.Services.AddDbContext<PostDbContext>(options =>
-/* options.UseSqlServer(builder.Configuration.GetSection("ConnectionString:PostDatabase").Value));*/
- options.UseSqlite("Data Source=Database/PostDb.db"));
+ options.UseSqlServer(builder.Configuration.GetConnectionString("PostDatabase")));
+
+//options.UseSqlite("Data Source=Database/PostDb.db"));
+
+/*builder.Services.AddDbContext<PostDbContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("PostDatabase");
+    options.UseSqlServer(connectionString);
+    // If you want to use SQLite instead, uncomment the line below and comment out the UseSqlServer line
+    // options.UseSqlite("Data Source=Database/PostDb.db");
+});*/
 
 
 
@@ -118,14 +126,14 @@ Console.WriteLine(myImageTag);
 var app = builder.Build();
 
 // SEED DATABASE WHEN APP STARTS!!
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     using (var scope = app.Services.CreateScope())
     {
         var seeder = scope.ServiceProvider.GetRequiredService<PostSeeder>();
         seeder.SeedPostDB(); // Call the SeedPostDB method here
     }
-}
+}*/
 // Configure the HTTP request pipeline.
 
 if (app.Environment.IsDevelopment())
