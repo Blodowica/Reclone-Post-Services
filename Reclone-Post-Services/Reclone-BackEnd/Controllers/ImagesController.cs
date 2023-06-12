@@ -93,6 +93,13 @@ public class ImagesController : ControllerBase
         }
     }
 
+    [HttpGet("loadImages")]
+    public string loadImages()
+    {
+        return "https://res.cloudinary.com/dlivi0v24/image/upload/v1686556723/fb791f58-3240-47ab-b400-bd60a8aa5887.jpg";
+
+    }
+
     [HttpPost("uploadVideo")]
     public async Task<IActionResult> UploadVideo(IFormFile video)
     {
@@ -113,14 +120,14 @@ public class ImagesController : ControllerBase
         {
             return BadRequest("Video file size cannot be greater than 20MB.");
         }
-
+        string publicId = Guid.NewGuid().ToString();
         // Upload video to Cloudinary
         try
         {
             var uploadParams = new VideoUploadParams()
             {
                 File = new FileDescription(video.FileName, video.OpenReadStream()),
-                PublicId = "my_video3"
+                PublicId = publicId
             };
 
             var uploadResult = await _cloudinary.UploadAsync(uploadParams);

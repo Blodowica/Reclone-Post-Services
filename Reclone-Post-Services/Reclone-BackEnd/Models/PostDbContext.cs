@@ -7,7 +7,7 @@ namespace Reclone_BackEnd.Models
         
         public PostDbContext(DbContextOptions<PostDbContext> options) : base(options)
         {
-            this.Database.EnsureCreated();
+           
         }
 
         //Enteties
